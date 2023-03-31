@@ -72,11 +72,8 @@ function draw_chessboard(color: Color, fen: string): void{
 
         if(!isNaN(Number(piece)) && fen_empty_square === 0){
             fen_empty_square = Number(piece);
-            console.log("fen_empty_square : ", fen_empty_square);
             position_in_row++
         }
-
-        console.log("count : ", fen_empty_square_count);
 
         if(fen_empty_square == fen_empty_square_count){
             if(isNaN(Number(piece)) && piece !== undefined){
