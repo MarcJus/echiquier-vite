@@ -71,6 +71,10 @@ body{
     width: 95%;
 }
 
-.highlight{
-    background-color: orangered;
+.highlight.black{
+    background-color: darkred;
+}
+
+.highlight.white{
+    background: orangered;
 }
