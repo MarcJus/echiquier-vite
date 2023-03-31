@@ -22,36 +22,49 @@ $("form input").on("change", () => { // détecte le changement de couleur
 })
 
 
-function draw_chessboard(color: Color, fen: string){
+function draw_chessboard(color: Color, fen: string): void{
 
-    const fen_position_description = fen.split(" ")[0];
-    const fen_rows = fen_position_description.split("/");
+    const fen_position_description: string = fen.split(" ")[0];
+    const fen_rows: string[] = fen_position_description.split("/");
     let fen_empty_square: number = 0;
     let fen_empty_square_count: number = 0;
-    let position_in_row: number = color == "white" ? 0 : 7;
+    let position_in_row: number = 0;
 
     for(let i: number = 0; i < 64; i++){
-        const row: number = color === "white" ? Math.ceil((64 - i) / 8) : Math.floor((i + 8) / 8);
-        const column: number = color === "white" ? i % 8 : 7 - (i % 8);
+        const row: number = Math.ceil((64 - i) / 8);
+        const column: number = i % 8;
+        const row_element:JQuery<HTMLDivElement> = $("<div>", {
+            text: row,
+            class: "row"
+        });
+        const column_element:JQuery<HTMLDivElement> = $("<div>", {
+            text: lettres[column],
+            class: "column"
+        });
 
         let square: JQuery<HTMLDivElement> = $("<div>", {
             class: "square"
         })
 
-        if(i % 8 === 0){ // rows
-            square.append($("<div>", {
-                text: row,
-                class: "row"
-            }));
+        if(i % 8 === 0){
             fen_empty_square = 0;
             fen_empty_square_count = 0;
-            position_in_row = color == "white" ? 0 : 7;
+            position_in_row = 0;
+            if(color === "white")
+                square.append(row_element);
         }
-        if(i > 55){
-            square.append($("<div>", { // column
-                text: lettres[column],
-                class: "column"
-            }));
+
+        if(color === "white"){
+            if(i > 55){
+                square.append(column_element);
+            }
+        } else {
+            if((i + 1) % 8 === 0){
+                square.append(row_element);
+            }
+            if(i < 8){
+                square.append(column_element)
+            }
         }
 
         const current_fen_row: string = fen_rows[8-row];
@@ -60,7 +73,7 @@ function draw_chessboard(color: Color, fen: string){
         if(!isNaN(Number(piece)) && fen_empty_square === 0){
             fen_empty_square = Number(piece);
             console.log("fen_empty_square : ", fen_empty_square);
-            color == "white" ? position_in_row++ : position_in_row --;
+            position_in_row++
         }
 
         console.log("count : ", fen_empty_square_count);
@@ -76,43 +89,41 @@ function draw_chessboard(color: Color, fen: string){
             fen_empty_square = 0;
         }
 
-        /*$("<div>", {
-            text: fen_empty_square_count,
-            class: "index"
-        }).appendTo(square);*/
+        // $("<div>", {
+        //     text: i,
+        //     class: "index"
+        // }).appendTo(square);
 
         if(fen_empty_square != 0) {
             if(fen_empty_square != fen_empty_square_count){
                 fen_empty_square_count ++;
             }
         } else {
-            color == "white" ? position_in_row++ : position_in_row --;
+            position_in_row++
         }
 
         if(first_square === "white"){ // fin de ligne : changement de couleur
             if(i % 2 === 0){ // blanc
-                square.addClass("white").addClass("black-text")
-                board.append(square.prop("outerHTML"))
+                square.addClass("white black-text")
             } else { // noir
-                square.addClass("black").addClass("white-text")
-                board.append(square.prop("outerHTML"))
+                square.addClass("black white-text")
             }
-
-            if((i + 1) % 8 === 0){
+            if((i + 1) % 8 === 0){ // fin de ligne : changement de couleur
                 first_square = "black";
             }
         } else if(first_square === "black"){
             if(i % 2 === 0){ // noir
-                square.addClass("black").addClass("white-text")
-                board.append(square.prop("outerHTML"))
+                square.addClass("black white-text")
             } else { // blanc
-                square.addClass("white").addClass("black-text")
-                board.append(square.prop("outerHTML"))
+                square.addClass("white black-text")
             }
             if((i + 1) % 8 === 0){ // fin de ligne : changement de couleur
                 first_square = "white";
             }
         }
+        color === "white" ?
+            board.append(square.prop("outerHTML")) :
+            board.prepend(square.prop("outerHTML"))
     }
 }
 
