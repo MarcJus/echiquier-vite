@@ -1,6 +1,7 @@
 import $ from 'jquery'
 import { Color } from "./types";
 import "./style.css"
+import {isValidFen} from "./fen";
 
 const board = $(".board")
 board.on("contextmenu", e => {
