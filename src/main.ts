@@ -10,8 +10,6 @@ board.on("contextmenu", e => {
 })
 let move: Color = $("input[name=move]:checked").val() as Color
 
-const lettres: string[] = ["a", "b", "c", "d", "e", "f", "g", "h"]
-
 draw_chessboard(move, fen_starting_position)
 
 let fen: string = fen_starting_position;
@@ -40,6 +38,7 @@ function draw_chessboard(color: Color, fen: string): void{
     let fen_empty_square: number = 0;
     let fen_empty_square_count: number = 0;
     let position_in_row: number = 0;
+    const lettres: string[] = ["a", "b", "c", "d", "e", "f", "g", "h"]
 
     for(let i: number = 0; i < 64; i++){
         const row: number = Math.ceil((64 - i) / 8);
