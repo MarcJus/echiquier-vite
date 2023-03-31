@@ -73,7 +73,8 @@ export function draw_chessboard(color: Color, fen: string, board: JQuery<HTMLEle
             if(isNaN(Number(piece)) && piece !== undefined){
                 square.append($("<img>", {
                     class: "piece",
-                    src: getImagePathFromPiece(piece)
+                    src: getImagePathFromPiece(piece),
+                    draggable: false
                 }))
             }
             fen_empty_square_count = 0;
