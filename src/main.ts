@@ -10,7 +10,7 @@ let move: Color | undefined = $("input[name=move]:checked").val() as Color
 
 let first_square: Color = "white";
 const lettres: string[] = ["a", "b", "c", "d", "e", "f", "g", "h"]
-const fen_starting_position: string = "rnbqkbnr/pp1ppppp/2P5/8/4P3/8/PPPP1PPP/RNBQKBNR w KQkq - 0 1";
+const fen_starting_position: string = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1";
 
 draw_chessboard(move, fen_starting_position)
 
