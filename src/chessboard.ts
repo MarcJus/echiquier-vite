@@ -2,10 +2,10 @@ import {Color} from "./types";
 import $ from "jquery";
 
 function getImagePathFromPiece(piece: string): string{
-    let image_path: string = "image/";
+    let image_path: string = "";
 
     if(piece == piece.toUpperCase()){ // lettre majuscule : blanc
-        image_path += "w" + piece + ".png"
+        image_path += "w" + piece.toLowerCase() + ".png"
     } else {
         image_path += "b" + piece + ".png"
     }
@@ -71,9 +71,9 @@ export function draw_chessboard(color: Color, fen: string, board: JQuery<HTMLEle
 
         if(fen_empty_square == fen_empty_square_count){
             if(isNaN(Number(piece)) && piece !== undefined){
-                square.append($("<div>", {
-                    text: piece,
-                    class: "piece"
+                square.append($("<img>", {
+                    class: "piece",
+                    src: getImagePathFromPiece(piece)
                 }))
             }
             fen_empty_square_count = 0;
