@@ -6,6 +6,7 @@ export function isValidFen(fen: string): boolean {
     const fen_accepted_chars: string = "rnbqkpRNBQKP12345678";
 
     let valid_fen: boolean = true;
+    let pieces_count: number = 0;
 
     fen_rows.forEach(row => {
         let squares_count: number = 0;
@@ -17,6 +18,7 @@ export function isValidFen(fen: string): boolean {
             }
             if(isNaN(Number(char))){ // lettre
                 squares_count++;
+                pieces_count++;
             } else { // nombre
                 squares_count += Number(char)
             }
@@ -28,6 +30,8 @@ export function isValidFen(fen: string): boolean {
             return;
         }
     })
+    if(pieces_count > 32)
+        valid_fen = false;
 
     return valid_fen;
 }
