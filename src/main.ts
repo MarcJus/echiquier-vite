@@ -12,6 +12,7 @@ let move: Color | undefined = $("input[name=move]:checked").val() as Color
 let first_square: Color = "white";
 const lettres: string[] = ["a", "b", "c", "d", "e", "f", "g", "h"]
 const fen_starting_position: string = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1";
+console.log(isValidFen(fen_starting_position))
 
 draw_chessboard(move, fen_starting_position)
 
