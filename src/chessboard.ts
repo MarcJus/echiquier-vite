@@ -1,6 +1,18 @@
 import {Color} from "./types";
 import $ from "jquery";
 
+function getImagePathFromPiece(piece: string): string{
+    let image_path: string = "image/";
+
+    if(piece == piece.toUpperCase()){ // lettre majuscule : blanc
+        image_path += "w" + piece + ".png"
+    } else {
+        image_path += "b" + piece + ".png"
+    }
+
+    return image_path;
+}
+
 export function draw_chessboard(color: Color, fen: string, board: JQuery<HTMLElement>): void{
 
     board.empty();
