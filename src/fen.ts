@@ -1,3 +1,5 @@
+export const fen_starting_position: string = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1";
+
 export function isValidFen(fen: string): boolean {
 
     const fen_position_description: string = fen.split(" ")[0];
