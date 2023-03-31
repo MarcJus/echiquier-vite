@@ -39,6 +39,7 @@ export function draw_chessboard(color: Color, fen: string, board: JQuery<HTMLEle
         let square: JQuery<HTMLDivElement> = $("<div>", {
             class: "square"
         })
+        square.attr("index", i)
 
         if(i % 8 === 0){
             fen_empty_square = 0;
@@ -117,4 +118,18 @@ export function draw_chessboard(color: Color, fen: string, board: JQuery<HTMLEle
             board.append(square.prop("outerHTML")) :
             board.prepend(square.prop("outerHTML"))
     }
+    $(".square").on("contextmenu", (e) => {
+        let target = $(e.target)
+        if(target.is("img")){
+            target = target.parent()
+        }
+        if(target.hasClass("highlight")){
+            target.removeClass("highlight")
+        } else {
+            target.addClass("highlight")
+        }
+    }).on("click", () => {
+        $("div.square").removeClass("highlight")
+    })
+
 }

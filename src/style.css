@@ -70,3 +70,7 @@ body{
     color: red;
     width: 95%;
 }
+
+.highlight{
+    background-color: orangered;
+}
