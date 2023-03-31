@@ -8,7 +8,7 @@ export function isValidFen(fen: string): boolean {
     let valid_fen: boolean = true;
 
     fen_rows.forEach(row => {
-        let pieces_count: number = 0;
+        let squares_count: number = 0;
         row.split("").forEach(char => {
             if(!fen_accepted_chars.split("").includes(char)){
                 valid_fen = false;
@@ -16,12 +16,12 @@ export function isValidFen(fen: string): boolean {
                 return;
             }
             if(isNaN(Number(char))){ // lettre
-                pieces_count++;
+                squares_count++;
             } else { // nombre
-                pieces_count += Number(char)
+                squares_count += Number(char)
             }
         })
-        if(pieces_count != 8){
+        if(squares_count != 8){
             valid_fen = false;
         }
         if(!valid_fen){
