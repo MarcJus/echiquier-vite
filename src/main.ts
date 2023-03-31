@@ -10,10 +10,7 @@ let move: Color | undefined = $("input[name=move]:checked").val() as Color
 
 let first_square: Color = "white";
 const lettres: string[] = ["a", "b", "c", "d", "e", "f", "g", "h"]
-const fen_starting_position: string = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1";
-
-let fen_empty_square: number = 0;
-let fen_empty_square_count: number = 0;
+const fen_starting_position: string = "rnbqkbnr/pp1ppppp/2P5/8/4P3/8/PPPP1PPP/RNBQKBNR w KQkq - 0 1";
 
 draw_chessboard(move, fen_starting_position)
 
@@ -29,12 +26,15 @@ function draw_chessboard(color: Color, fen: string){
 
     const fen_position_description = fen.split(" ")[0];
     const fen_rows = fen_position_description.split("/");
+    let fen_empty_square: number = 0;
+    let fen_empty_square_count: number = 0;
+    let position_in_row: number = color == "white" ? 0 : 7;
 
-    for(let i = 0; i < 64; i++){
-        const row = color === "white" ? Math.ceil((64 - i) / 8) : Math.floor((i + 8) / 8);
-        const column = color === "white" ? i % 8 : 7 - (i % 8);
+    for(let i: number = 0; i < 64; i++){
+        const row: number = color === "white" ? Math.ceil((64 - i) / 8) : Math.floor((i + 8) / 8);
+        const column: number = color === "white" ? i % 8 : 7 - (i % 8);
 
-        let square = $("<div>", {
+        let square: JQuery<HTMLDivElement> = $("<div>", {
             class: "square"
         })
 
@@ -45,6 +45,7 @@ function draw_chessboard(color: Color, fen: string){
             }));
             fen_empty_square = 0;
             fen_empty_square_count = 0;
+            position_in_row = color == "white" ? 0 : 7;
         }
         if(i > 55){
             square.append($("<div>", { // column
@@ -53,33 +54,41 @@ function draw_chessboard(color: Color, fen: string){
             }));
         }
 
-        const current_fen_row = fen_rows[8-row];
-        const piece = current_fen_row[column];
+        const current_fen_row: string = fen_rows[8-row];
+        const piece: string = current_fen_row[position_in_row];
 
         if(!isNaN(Number(piece)) && fen_empty_square === 0){
             fen_empty_square = Number(piece);
-            console.log(fen_empty_square);
+            console.log("fen_empty_square : ", fen_empty_square);
+            color == "white" ? position_in_row++ : position_in_row --;
         }
 
-        console.log(fen_empty_square_count);
+        console.log("count : ", fen_empty_square_count);
 
-        // if(isNaN(piece) && piece !== undefined){
-        //     square.append($("<div>", {
-        //         text: piece,
-        //         class: "piece"
-        //     }))
-        // }
+        if(fen_empty_square == fen_empty_square_count){
+            if(isNaN(Number(piece)) && piece !== undefined){
+                square.append($("<div>", {
+                    text: piece,
+                    class: "piece"
+                }))
+            }
+            fen_empty_square_count = 0;
+            fen_empty_square = 0;
+        }
 
-        while(fen_empty_square !== fen_empty_square_count)
-            fen_empty_square_count++;
+        /*$("<div>", {
+            text: fen_empty_square_count,
+            class: "index"
+        }).appendTo(square);*/
 
-        // let square_name = "";
-        // square_name += column;
-        // square_name += row;
-        // square.append($("<div>", {
-        //     text: square_name,
-        //     class: "index"
-        // }));
+        if(fen_empty_square != 0) {
+            if(fen_empty_square != fen_empty_square_count){
+                fen_empty_square_count ++;
+            }
+        } else {
+            color == "white" ? position_in_row++ : position_in_row --;
+        }
+
         if(first_square === "white"){ // fin de ligne : changement de couleur
             if(i % 2 === 0){ // blanc
                 square.addClass("white").addClass("black-text")
