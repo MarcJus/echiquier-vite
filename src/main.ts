@@ -1,30 +1,40 @@
 import $ from 'jquery'
 import { Color } from "./types";
 import "./style.css"
+
 import { isValidFen, fen_starting_position } from "./fen";
 
 const board = $(".board")
 board.on("contextmenu", e => {
     e.preventDefault();
 })
-let move: Color | undefined = $("input[name=move]:checked").val() as Color
+let move: Color = $("input[name=move]:checked").val() as Color
 
-let first_square: Color = "white";
 const lettres: string[] = ["a", "b", "c", "d", "e", "f", "g", "h"]
-console.log(isValidFen(fen_starting_position))
 
 draw_chessboard(move, fen_starting_position)
 
+let fen: string = fen_starting_position;
 $("form input").on("change", () => { // détecte le changement de couleur
     move = $("input[name=move]:checked").val() as Color
-    console.log(move);
-    board.empty();
-    draw_chessboard(move, fen_starting_position);
+    draw_chessboard(move, fen);
 })
-
+$("button.define-pos").on("click", () => {
+    fen = $("input[name=fen]").val() as string
+    if(fen === "")
+        fen = fen_starting_position;
+    console.log(isValidFen(fen))
+    if(isValidFen(fen)){
+        draw_chessboard(move, fen);
+    } else {
+        alert("FEN invalide !");
+    }
+})
 
 function draw_chessboard(color: Color, fen: string): void{
 
+    board.empty();
+    let first_square: Color = "white";
     const fen_position_description: string = fen.split(" ")[0];
     const fen_rows: string[] = fen_position_description.split("/");
     let fen_empty_square: number = 0;
