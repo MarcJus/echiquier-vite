@@ -1,6 +1,16 @@
 import {Color} from "./types";
 import $ from "jquery";
 
+const lettres: Column[] = ["a", "b", "c", "d", "e", "f", "g", "h"]
+
+type Row = 1 | 2 |3 | 4 | 5 | 6 | 7 | 8
+type Column = "a" | "b" | "c" | "d" | "e" | "f" | "g" | "h"
+
+export interface Coordinates {
+    row: Row,
+    column: Column
+}
+
 function getImagePathFromPiece(piece: string): string{
     let image_path: string = "";
 
@@ -22,7 +32,7 @@ export function draw_chessboard(color: Color, fen: string, board: JQuery<HTMLEle
     let fen_empty_square: number = 0;
     let fen_empty_square_count: number = 0;
     let position_in_row: number = 0;
-    const lettres: string[] = ["a", "b", "c", "d", "e", "f", "g", "h"]
+
 
     for(let i: number = 0; i < 64; i++){
         const row: number = Math.ceil((64 - i) / 8);
@@ -73,7 +83,7 @@ export function draw_chessboard(color: Color, fen: string, board: JQuery<HTMLEle
         if(fen_empty_square == fen_empty_square_count){
             if(isNaN(Number(piece)) && piece !== undefined){
                 square.append($("<img>", {
-                    class: "piece",
+                    class: "piece p-"+piece,
                     src: getImagePathFromPiece(piece),
                     draggable: false
                 }))
@@ -128,8 +138,28 @@ export function draw_chessboard(color: Color, fen: string, board: JQuery<HTMLEle
         } else {
             target.addClass("highlight")
         }
-    }).on("click", () => {
+    }).on("click", (e) => {
         $("div.square").removeClass("highlight")
+        let target = $(e.target)
+        if(target.is("img")){
+            target = target.parent()
+        }
+        const coordinates = getCoordinates(target)
     })
 
+}
+
+function getCoordinates(square: JQuery<HTMLElement>): Coordinates | false{
+    let index: string | number | undefined = square.attr("index");
+    if(index){
+        if(!isNaN(Number(index))){
+            index = +index
+            return {
+                row: Math.ceil((64 - index) / 8) as Row,
+                column: lettres[index % 8]
+            }
+        }
+    }
+
+    return false;
 }
