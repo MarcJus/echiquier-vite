@@ -72,9 +72,20 @@ body{
 }
 
 .highlight.black{
-    background-color: darkred;
+    background-color: rgba(255, 69, 0, 0.8);
 }
 
 .highlight.white{
-    background: orangered;
+    background: rgba(255, 0, 0, 0.8);
+}
+
+.move-possible {
+    position: absolute;
+    width: 30%;
+    height: 30%;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: rgba(50, 50, 50);
+    border-radius: 100%;
 }

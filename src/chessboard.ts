@@ -141,10 +141,15 @@ export function draw_chessboard(color: Color, fen: string, board: JQuery<HTMLEle
     }).on("click", (e) => {
         $("div.square").removeClass("highlight")
         let target = $(e.target)
-        if(target.is("img")){
-            target = target.parent()
+        if(!target.is("div") || !target.hasClass("square")){
+            target = target.parent(".square")
         }
-        const coordinates = getCoordinates(target)
+        // const coordinates = getCoordinates(target)
+        const pieces = target.children("img")
+        if(pieces.length == 1){
+            console.log(pieces.attr("class"))
+        }
+
     })
 
 }
